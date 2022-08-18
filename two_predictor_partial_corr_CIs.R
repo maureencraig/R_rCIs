@@ -59,8 +59,8 @@ pcorrCIs_2pred <- function(data, outcome, var1, var2, digits)
   P2_UCI = tanh(P2zUCI)
   
   if(missing(digits)) {
-    result1 <- paste0('predictor listed 1st: ', match.call()[4], ' Partialcorr:  ', partialcorrP1, ' LCI: ', P1_LCI, ' UCI: ', P1_UCI)
-    result2 <- paste0('predictor listed 2nd: ', match.call()[5], ' Partialcorr:  ',  partialcorrP2, ' LCI: ', P2_LCI, ' UCI: ', P2_UCI)
+    result1 <- paste0('predictor listed 1st: ', match.call()[4], ' Partialcorr:  ', round(partialcorrP1, 8), ' LCI: ', round(P1_LCI, 8), ' UCI: ', round(P1_UCI, 8))
+    result2 <- paste0('predictor listed 2nd: ', match.call()[5], ' Partialcorr:  ',  round(partialcorrP2, 8), ' LCI: ', round(P2_LCI, 8), ' UCI: ', round(P2_UCI, 8))
   }
   if(!missing(digits)) {
     result1 <- paste0('predictor listed 1st: ', match.call()[4], ' Partialcorr:  ', round(partialcorrP1, digits), ' LCI: ', round(P1_LCI, digits), ' UCI: ', round(P1_UCI, digits))
