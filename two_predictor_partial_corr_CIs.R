@@ -2,7 +2,7 @@
 ## Partial rs & confidence intervals      ##
 ## for 2 predictor regression effect sizes##
 ## Maureen Craig                          ##
-## Last updated: 7/13/2022                ##
+## Last updated: 8/17/2022                ##
 
 ## Function to run to calculate the       ##
 ## partial correlation coefficients       ##
@@ -15,21 +15,23 @@
 #
 #  pcorrCIs_2pred(data, outcomevariable firstpredictorvariable secondpredictorvariable)
 #
-# example: pcorrCIs_2pred(data.S1, data.S1$DV, data.S1$IV1, data.S1$IV2)
+# example: source('https://raw.githubusercontent.com/maureencraig/R_rCIs/main/two_predictor_partial_corr_CIs.R')
+# pcorrCIs_2pred(data, data$DV, data$IV1, data$IV2)
 # 
   
 pcorrCIs_2pred <- function(data, outcome, var1, var2)
 {
   FULL1<- lm(outcome ~ var1 + var2, data)
-  samplesize <- nrow(model.frame(FULL1))
+  casestouse <- model.frame(FULL1) # ensure that the models w/ fewer parameters use the same observations 
+  samplesize <- nrow(casestouse)
   fullR2 <- summary(FULL1)$r.squared
   full_coef_info <- summary(FULL1)$coefficients
   pred1 <- full_coef_info[2,1] #grab first coefficient of interest
   pred2 <- full_coef_info[3,1] #grab second coefficient of interest
   
-  without1 <- lm(outcome ~ var2, data)
+  without1 <- lm(outcome ~ var2, casestouse)
   r2noP1 <- summary(without1)$r.squared
-  without2 <- lm(outcome ~ var1, data)
+  without2 <- lm(outcome ~ var1, casestouse)
   r2noP2 <- summary(without2)$r.squared
   
   r2changeP1 = fullR2 - r2noP1
