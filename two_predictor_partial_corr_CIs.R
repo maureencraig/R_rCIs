@@ -17,9 +17,10 @@
 #
 # example: source('https://raw.githubusercontent.com/maureencraig/R_rCIs/main/two_predictor_partial_corr_CIs.R')
 # pcorrCIs_2pred(data, data$DV, data$IV1, data$IV2)
+# pcorrCIs_2pred(data, data$DV, data$IV1, data$IV2, digits=2)
 # 
   
-pcorrCIs_2pred <- function(data, outcome, var1, var2)
+pcorrCIs_2predtest3 <- function(data, outcome, var1, var2, digits)
 {
   FULL1<- lm(outcome ~ var1 + var2, data)
   casestouse <- model.frame(FULL1) # ensure that the models w/ fewer parameters use the same observations 
@@ -56,8 +57,15 @@ pcorrCIs_2pred <- function(data, outcome, var1, var2)
   P2zUCI = atanh(partialcorrP2) + (1.96*(1/(sqrt(samplesize - 4))))
   P2_LCI = tanh(P2zLCI)
   P2_UCI = tanh(P2zUCI)
-  result1 <- paste0('predictor listed 1st: ', match.call()[4], ':  ', round(partialcorrP1, 2), ' LCI: ', round(P1_LCI, 2), ' UCI: ', round(P1_UCI, 2))
-  result2 <- paste0('predictor listed 2nd: ', match.call()[5], ':  ',  round(partialcorrP2, 2), ' LCI: ', round(P2_LCI, 2), ' UCI: ', round(P2_UCI, 2))
+  
+  if(missing(digits)) {
+    result1 <- paste0('predictor listed 1st: ', match.call()[4], ' Partialcorr:  ', partialcorrP1, ' LCI: ', P1_LCI, ' UCI: ', P1_UCI)
+    result2 <- paste0('predictor listed 2nd: ', match.call()[5], ' Partialcorr:  ',  partialcorrP2, ' LCI: ', P2_LCI, ' UCI: ', P2_UCI)
+  }
+  if(!missing(digits)) {
+    result1 <- paste0('predictor listed 1st: ', match.call()[4], ' Partialcorr:  ', round(partialcorrP1, digits), ' LCI: ', round(P1_LCI, digits), ' UCI: ', round(P1_UCI, digits))
+    result2 <- paste0('predictor listed 2nd: ', match.call()[5], ' Partialcorr:  ',  round(partialcorrP2, digits), ' LCI: ', round(P2_LCI, digits), ' UCI: ', round(P2_UCI, digits))
+  }
   result <- list(result1, result2)
   return(result)
 }
