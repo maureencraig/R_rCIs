@@ -20,7 +20,7 @@
 # pcorrCIs_2pred(data, data$DV, data$IV1, data$IV2, digits=2)
 # 
   
-pcorrCIs_2predtest3 <- function(data, outcome, var1, var2, digits)
+pcorrCIs_2pred <- function(data, outcome, var1, var2, digits)
 {
   FULL1<- lm(outcome ~ var1 + var2, data)
   casestouse <- model.frame(FULL1) # ensure that the models w/ fewer parameters use the same observations 
