@@ -40,15 +40,15 @@ f2_CIs_2pred <- function(data, outcome, var1, var2, digits)
   
   r2changeP1 = fullR2 - r2noP1
   r2changeP2 = fullR2 - r2noP2
+  f2P1 = r2changeP1 / (1 - fullR2)
+  f2P2 = r2changeP2 / (1 - fullR2)
   # the following calculations are based on alpha of .05 & 2 predictors in the model
-  SER2_P1 = (((4*r2changeP1)*((1-r2changeP1)^2)*((samplesize-2-1)^2))/((samplesize^2 - 1)*(3+samplesize)))^.5
-  SER2_P2 = (((4*r2changeP2)*((1-r2changeP2)^2)*((samplesize-2-1)^2))/((samplesize^2 - 1)*(3+samplesize)))^.5
-  P1_LCI = r2changeP1 - (abs((qt(.05/2, samplesize-2-1)))*(SER2_P1)) 
-  P1_UCI = r2changeP1 + (abs((qt(.05/2, samplesize-2-1)))*(SER2_P1)) 
-  P2_LCI = r2changeP2 - (abs((qt(.05/2, samplesize-2-1)))*(SER2_P2)) 
-  P2_UCI = r2changeP2 + (abs((qt(.05/2, samplesize-2-1)))*(SER2_P2)) 
-  f2P1 = r2changeP1 / (1 - r2changeP1)
-  f2P2 = r2changeP2 / (1 - r2changeP2)
+  SER2_P1 = (((4*(f2P1/(f2P1+1)))*((1-(f2P1/(f2P1+1)))^2)*((samplesize-2-1)^2))/((samplesize^2 - 1)*(3+samplesize)))^.5
+  SER2_P2 = (((4*(f2P2/(f2P2+1)))*((1-(f2P2/(f2P2+1)))^2)*((samplesize-2-1)^2))/((samplesize^2 - 1)*(3+samplesize)))^.5
+  P1_LCI = (f2P1/(f2P1+1)) - (abs((qt(.05/2, samplesize-2-1)))*(SER2_P1)) 
+  P1_UCI = (f2P1/(f2P1+1)) + (abs((qt(.05/2, samplesize-2-1)))*(SER2_P1)) 
+  P2_LCI = (f2P2/(f2P2+1)) - (abs((qt(.05/2, samplesize-2-1)))*(SER2_P2)) 
+  P2_UCI = (f2P2/(f2P2+1)) + (abs((qt(.05/2, samplesize-2-1)))*(SER2_P2)) 
   f2P1_LCI = P1_LCI / (1 - P1_LCI)
   f2P1_UCI = P1_UCI / (1 - P1_UCI)
   f2P2_LCI = P2_LCI / (1 - P2_LCI)
